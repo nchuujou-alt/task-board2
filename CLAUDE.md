@@ -4,9 +4,40 @@
 
 ## プロジェクト概要
 
-task-board2 プロジェクト。
+task-board2 プロジェクト。React製のシンプルなタスクボードアプリ（タスクの追加・完了トグル・削除、localStorageへの永続化）。
 
-> 技術スタックやディレクトリ構成が固まったら、このセクションを具体的に更新してください（使用言語・フレームワーク・主要ディレクトリの役割など）。
+## 技術スタック
+
+- 言語 / ライブラリ: React 19
+- ビルドツール: Vite 8（`@vitejs/plugin-react`）
+- Lint: oxlint
+- 状態管理: React標準の `useState` / `useEffect`（外部の状態管理ライブラリは未使用）
+- データ永続化: ブラウザの `localStorage`（バックエンド・DBは未使用）
+- 主要ディレクトリ / ファイル
+  - `src/main.jsx` — エントリーポイント
+  - `src/App.jsx` — ルートコンポーネント
+  - `src/TaskBoard.jsx` / `src/TaskBoard.css` — タスクボード本体（機能コンポーネント）
+  - `public/` — 静的アセット（favicon等）
+  - `.github/workflows/deploy.yml` — GitHub Pagesへの自動デプロイ用CI
+- 主なコマンド
+  - `npm run dev` — 開発サーバー起動
+  - `npm run build` — 本番ビルド（`dist/`に出力）
+  - `npm run preview` — ビルド成果物のプレビュー
+  - `npm run lint` — oxlintによる静的解析
+
+## デプロイ先
+
+- https://nchuujou-alt.github.io/task-board2/
+- `main` ブランチへのpushをトリガーに GitHub Actions（`.github/workflows/deploy.yml`）がビルドし、GitHub Pagesへ自動デプロイする。
+- Viteの `base` は `vite.config.js` でリポジトリ名に合わせて `/task-board2/` に設定済み。リポジトリ名を変更する場合はこの値も合わせて変更すること。
+
+## コンポーネントの命名規約
+
+- コンポーネントファイルは `PascalCase.jsx`（例: `TaskBoard.jsx`）とし、ファイル名とコンポーネント（default export）名を一致させる。
+- コンポーネント専用のスタイルは同名の `PascalCase.css` を同じディレクトリに置き、コンポーネントファイル内で `import './ComponentName.css'` する（例: `TaskBoard.jsx` ⇔ `TaskBoard.css`）。
+- コンポーネント内のイベントハンドラ関数は `addTask` / `toggleTask` / `deleteTask` のように「動詞 + 対象（camelCase）」で命名する。
+- CSSクラス名はケバブケース（例: `task-item`, `task-form`, `empty-message`）を使用し、状態を表す修飾クラスは `done` のように短い単語を要素クラスに追加する形（`task-item done`）で表現する。
+- 1ファイル1コンポーネントを基本とし、コンポーネントが肥大化してきたら関心事ごとに分割する。
 
 ## Git運用ルール
 
